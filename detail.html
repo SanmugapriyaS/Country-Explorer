@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- html page for displaying the information about the selected country-->
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="mystyle.css">
+    <title>Document</title>
+
+</head>
+<body id="body">
+
+            <h1 id="cname" style="background-color: #ffffff"></h1>
+            <hr style="width:40%;border:1px solid black;">
+            <table class="tiledet"><!-- card that contains the country specific info in brief -->
+                <tr>
+
+                      <td style="text-align: left"><p>Capital: <span id="capital"></span></p>
+                        <p>Dialing Code: <span id="dialing-code"></span></p>
+                        <p>Population: <span id="population"></span></p>
+                        <p>Currencies: <span id="currencies"></span></p>
+                        <p>Region: <span id="region"></span></p>
+                        <p>Subregion: <span id="subregion"></span></p></td>
+                </tr>
+            </table>
+
+            <!--LINK for traversing back to the page where search results were displayed-->
+            <a href="example.html" style="background: #ffffffd1">Go Back</a>
+
+</body>
+<script >
+	window.onload = function ()
+  {
+        // getting the alpha3code from the previous html page
+        var url = document.location.href,
+        alpha3code = url.split('?')[1].split('=')[1];
+        fetch('https://restcountries.eu/rest/v2/alpha/'+alpha3code)
+        .then(function(response) {
+        return response.json();
+        })
+        .then(function(countryData) {
+            //assigning the tags with selected countries information
+            document.getElementById("body").style.background="url("+countryData.flag+")";
+            document.getElementById("body").style.backgroundSize="cover";
+            document.getElementById("body").style.backgroundRepeat="no-repeat";
+
+            //consoling the results of search
+            console.log(countryData);
+            document.getElementById("cname").innerHTML = countryData.name;
+            document.getElementById("capital").innerHTML = countryData.capital;
+            document.getElementById("dialing-code").innerHTML = `+${countryData.callingCodes[0]}`;
+            document.getElementById("population").innerHTML = countryData.population.toLocaleString("en-US");
+            document.getElementById("currencies").innerHTML = countryData.currencies.filter(curr => curr.name).map(curr => `${curr.name} (${curr.code})`).join(", ");
+            document.getElementById("region").innerHTML = countryData.region;
+            document.getElementById("subregion").innerHTML = countryData.subregion;
+         })
+  }
+ </script>
+</html>
