@@ -21,6 +21,7 @@
                         <p>Dialing Code: <span id="dialing-code"></span></p>
                         <p>Population: <span id="population"></span></p>
                         <p>Currencies: <span id="currencies"></span></p>
+                        <p>Languages: <span id="languages"></span></p>
                         <p>Region: <span id="region"></span></p>
                         <p>Subregion: <span id="subregion"></span></p></td>
                 </tr>
@@ -53,6 +54,7 @@
             document.getElementById("dialing-code").innerHTML = `+${countryData.callingCodes[0]}`;
             document.getElementById("population").innerHTML = countryData.population.toLocaleString("en-US");
             document.getElementById("currencies").innerHTML = countryData.currencies.filter(curr => curr.name).map(curr => `${curr.name} (${curr.code})`).join(", ");
+            document.getElementById("languages").innerHTML = countryData.languages.filter(c => c.name).map(c => `${c.name} (${c.nativeName})`).join(", ");
             document.getElementById("region").innerHTML = countryData.region;
             document.getElementById("subregion").innerHTML = countryData.subregion;
          })
